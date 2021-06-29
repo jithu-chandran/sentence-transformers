@@ -5,7 +5,7 @@ from typing import List, Dict, Optional, Union, Tuple
 import os
 
 
-class Transformer(nn.Module):
+class AdapterTransformer(nn.Module):
     """Huggingface AutoModel to generate token embeddings.
     Loads the correct class, e.g. BERT / RoBERTa etc.
 
@@ -21,7 +21,7 @@ class Transformer(nn.Module):
                  model_args: Dict = {}, cache_dir: Optional[str] = None,
                  tokenizer_args: Dict = {}, do_lower_case: bool = False,
                  tokenizer_name_or_path : str = None):
-        super(Transformer, self).__init__()
+        super(AdapterTransformer, self).__init__()
         self.config_keys = ['max_seq_length', 'do_lower_case']
         self.do_lower_case = do_lower_case
 
@@ -42,7 +42,7 @@ class Transformer(nn.Module):
             self.auto_model.config.tokenizer_class = self.tokenizer.__class__.__name__
 
     def __repr__(self):
-        return "Transformer({}) with Transformer model: {} ".format(self.get_config_dict(), self.auto_model.__class__.__name__)  #super(Transformer, self).__repr__()
+        return "AdapterTransformer({}) with AdapterTransformer model: {} ".format(self.get_config_dict(), self.auto_model.__class__.__name__)  #super(AdapterTransformer, self).__repr__()
 
     def forward(self, features):
         """Returns token_embeddings, cls_token"""
@@ -123,7 +123,7 @@ class Transformer(nn.Module):
 
         with open(sbert_config_path) as fIn:
             config = json.load(fIn)
-        return Transformer(model_name_or_path=input_path, **config)
+        return AdapterTransformer(model_name_or_path=input_path, **config)
 
 
 
