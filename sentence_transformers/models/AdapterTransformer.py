@@ -27,6 +27,8 @@ class Transformer(nn.Module):
 
         config = AutoConfig.from_pretrained(model_name_or_path, **model_args, cache_dir=cache_dir)
         self.auto_model = AutoModel.from_pretrained(model_name_or_path, config=config, cache_dir=cache_dir)
+        adapter_name = list(self.auto_model.config.adapters.adapters.keys())[0]
+        self.auto_model.set_active_adapters(adapter_name)
         self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_name_or_path if tokenizer_name_or_path is not None else model_name_or_path, cache_dir=cache_dir, **tokenizer_args)
 
         #No max_seq_length set. Try to infer from model
